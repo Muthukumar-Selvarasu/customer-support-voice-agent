@@ -1,0 +1,25 @@
+schema: spec-driven
+
+# Project-wide constraints that guide OpenSpec artifact generation
+context: |
+  Stack: Python 3.12+, FastAPI, Uvicorn, Google ADK, Gemini (STT, Agent, Judge, Masker, TTS), MCP Toolbox, PostgreSQL 15+, Mem0, Arize Phoenix (OpenTelemetry)
+  Repository Layout:
+    - docs/: FDE governance & milestone docs (ENGAGEMENT.md, 01-discovery/, 02-problem-metrics/, 03-poc/, 06-qa-uat/, 07-deployment/, 08-hypercare/, 09-expansion/)
+    - openspec/: Spec-driven development engine (specs/ source of truth, changes/ active & archived deltas)
+    - src/: Application source code
+    - tests/: Automated test suites (unit/, integration/, evals/)
+  Deployment Constraints:
+    - Target multi-service deployment on Railway (private networking + DATABASE_URL) as well as local development
+    - Zero dependency on GOOGLE_CLOUD_PROJECT or GCP IAM/DLP service accounts; require only GOOGLE_API_KEY, MEM0_API_KEY, and DATABASE_URL
+
+rules:
+  proposal:
+    - Align scope with docs/ENGAGEMENT.md, docs/01-discovery/, docs/02-problem-metrics/, and docs/03-poc/
+    - Always state which channels (Web Chat, Voice WebSocket, CLI) and services are in scope and out of scope
+  specs:
+    - Use normative SHALL/MUST statements with concrete WHEN/THEN scenarios
+  design:
+    - Place application code under src/ and keep all service URLs, hosts, ports, and database connections configurable via environment variables with localhost defaults
+  tasks:
+    - Break implementation into small verifiable steps under src/ and tests/
+    - Include pytest verification commands for each task group
